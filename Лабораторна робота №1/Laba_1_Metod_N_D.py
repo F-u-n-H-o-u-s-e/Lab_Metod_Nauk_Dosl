@@ -1,12 +1,12 @@
 import numpy as np
 from random import *
 
-MIN, MAX = 0, 20
-
 a0 = randint(0,100)
 a1 = randint(0,100)
 a2 = randint(0,100)
 a3 = randint(0,100)
+
+MIN, MAX = 0, 20
 
 x = np.empty((8, 3), dtype=float)
 y = np.empty(8)
