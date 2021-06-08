@@ -1,5 +1,7 @@
 import random as rand
 import math
+import timeit
+
 var = 12
 m = 6
 y_max = (30 - var) * 10
@@ -8,6 +10,7 @@ x1_min, x1_max, x2_min, x2_max = -40, 20, -35, 15
 xn = [[-1, -1], [1, -1], [-1, 1]]
 
 # ПОШУК СЕРЕДНЬОГО ЗНАЧЕННЯ
+start_time = timeit.default_timer()
 def averY(list):
     avY = []
     for i in range(len(list)):
@@ -47,7 +50,7 @@ sigmaTeta = math.sqrt((2 * (2 * m - 2)) / (m * (m - 4)))
 Fuv = []
 teta = []
 Ruv = []
-
+time = timeit.default_timer() - start_time
 # Обчислимо Fuv:
 Fuv.append(fuv(dispers(y)[0], dispers(y)[1]))
 Fuv.append(fuv(dispers(y)[2], dispers(y)[0]))
@@ -114,3 +117,4 @@ print('Натуралізовані коефіцієнти: \na0 =', round(koef0
 print('У практичний ', round(y_pr1, 4), round(y_pr2, 4), round(y_pr3, 4),
       '\nУ середній', round(avY[0], 4), round(avY[1], 4), round(avY[2], 4))
 print('У практичний норм.', round(yP1, 4), round(yP2, 4), round(yP3, 4))
+print("Час виконання перевірки однорідності дисперсії: {} second".format(time))
