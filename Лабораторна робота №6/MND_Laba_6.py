@@ -5,6 +5,10 @@ from itertools import compress
 from scipy.stats import f, t
 import numpy
 from functools import reduce
+import time
+
+
+
 def regression_equation(x1, x2, x3, coeffs, importance=[True] * 11):
  factors_array = [1, x1, x2, x3, x1 * x2, x1 * x3, x2 * x3, x1 * x2 * x3,
 x1 ** 2, x2 ** 2, x3 ** 2]
@@ -89,11 +93,13 @@ in range(11)]
  beta_coefficients = numpy.linalg.solve(coeffs, free_values)
  return list(beta_coefficients)
 def cochran_criteria(m, N, y_table):
+ cochran_begin = time.clock()
  def get_cochran_value(f1, f2, q):
  partResult1 = q / f2
  params = [partResult1, f1, (f2 - 1) * f1]
  fisher = f.isf(*params)
  result = fisher / (fisher + (f2 - 1))
+ print("Час віконання перевірки за Кофреном: " + str(time.clock()-cochran_begin))
  return Decimal(result).quantize(Decimal('.0001')).__float__()
  print("Перевірка рівномірності дисперсій за критерієм Кохрена: m = {}, N
 = {}".format(m, N))
@@ -180,6 +186,10 @@ while not cochran_criteria(m, N, y_arr):
 print_matrix(m, N, natural_plan, y_arr, " для натуралізованих факторів:")
 coefficients = find_coefficients(natural_plan, y_arr)
 print_equation(coefficients)
+student_begin = time.clock()
 importance = student_criteria(m, N, y_arr, coefficients)
+print("Час віконання перевірки за Стюдентом: " + str(time.clock()-student_begin))
 d = len(list(filter(None, importance)))
+fisher_begin = time.clock()
 fisher_criteria(m, N, d, natural_plan, y_arr, coefficients, importance)
+print("Час віконання перевірки за Фішером: " + str(time.clock()-fisher_begin))
